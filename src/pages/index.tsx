@@ -1,14 +1,31 @@
 import React, { useState } from "react";
 import Nav from "@/components/nav";
 import { Scanner } from "@yudiel/react-qr-scanner";
+import axios from "axios";
 
 export default function Home() {
   const [scanValue, setScanValue] = useState<string | null>(null); // Specify type here
+  const [participantDetails, setParticipantDetails] = useState({
+    name: "",
+    email: "",
+    mobile: "",
+    affiliation: "",
+  });
+  const fetchUserDetails = async (email: string) => {
+    await axios.get(`/api/participants/participant?email=${email}`).then((response) => {
+      const details=response.data?.data;
+      setParticipantDetails({
+        name: details.name,
+        email: details.email,
+        mobile: details.mobile,
+        affiliation: details.affiliation
+      });
+    });
+  };
   console.log(scanValue);
   return (
     <>
       <Nav />
-
       <div className="max-w-96 mx-auto">
         <div className="justify-center bg-gray-100 p-5 py-7 rounded-lg my-3">
           <h1 className="text-xl font-semibold text-center">Scan QR Code</h1>
@@ -22,6 +39,7 @@ export default function Home() {
             if (result.length > 0) {
               console.log(result[0].rawValue);
               setScanValue(result[0].rawValue);
+              fetchUserDetails(result[0].rawValue);
             }
           }}
         />
@@ -39,19 +57,19 @@ export default function Home() {
             <tbody>
               <tr className="bg-gray-100 border-t border-gray-300">
                 <td className="px-4 py-2 font-semibold">Name</td>
-                <td className="px-4 py-2">Suhit Eswar</td>
+                <td className="px-4 py-2">{participantDetails?.name}</td>
               </tr>
               <tr className="bg-white">
                 <td className="px-4 py-2 font-semibold">Email</td>
-                <td className="px-4 py-2">suhiteswar123@gmail.com</td>
+                <td className="px-4 py-2">{participantDetails?.email}</td>
               </tr>
               <tr className="bg-gray-100 border-t border-gray-300">
                 <td className="px-4 py-2 font-semibold">Mobile</td>
-                <td className="px-4 py-2">1234567890</td>
+                <td className="px-4 py-2">{participantDetails?.mobile}</td>
               </tr>
               <tr className="bg-white">
                 <td className="px-4 py-2 font-semibold">Affiliation</td>
-                <td className="px-4 py-2">GITAM</td>
+                <td className="px-4 py-2">{participantDetails?.affiliation}</td>
               </tr>
             </tbody>
           </table>
