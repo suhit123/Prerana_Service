@@ -12,20 +12,22 @@ export default function Home() {
     affiliation: "",
   });
   const fetchUserDetails = async (email: string) => {
-    await axios.get(`/api/participants/participant?email=${email}`).then((response) => {
-      const details=response.data?.data;
-      setParticipantDetails({
-        name: details.name,
-        email: details.email,
-        mobile: details.mobile,
-        affiliation: details.affiliation
+    await axios
+      .get(`/api/participants/participant?email=${email}`)
+      .then((response) => {
+        const details = response.data?.data;
+        setParticipantDetails({
+          name: details.name,
+          email: details.email,
+          mobile: details.mobile,
+          affiliation: details.affiliation,
+        });
       });
-    });
   };
   console.log(scanValue);
   return (
     <>
-      {/* <Nav /> */}
+      <Nav />
       <div className="max-w-96 mx-auto p-2">
         <div className="justify-center bg-gray-100 p-5 py-7 rounded-lg my-3">
           <h1 className="text-xl font-semibold text-center">Scan QR Code</h1>
