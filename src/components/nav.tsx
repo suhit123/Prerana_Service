@@ -33,7 +33,7 @@ const Nav = () => {
             <p className="sn:hidden sp:hidden se:hidden">Scanner </p>
           </Link>
         </li>
-        <li>
+        {/* <li>
           <Link
             href="/participants"
             style={{
@@ -50,7 +50,7 @@ const Nav = () => {
             />{" "}
             <p className="sn:hidden sp:hidden se:hidden">Participants</p>
           </Link>
-        </li>
+        </li> */}
       </ul>
     </nav>
   );
