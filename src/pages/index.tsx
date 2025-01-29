@@ -8,6 +8,7 @@ import Spinner1 from "@/components/spinner1";
 export default function Home() {
   const [scanValue, setScanValue] = useState<string | null>(null); // Specify type here
   const [dataLoader, setDataLoader] = useState(false);
+  const [notFound, setNotFound] = useState(false);
   const [participantDetails, setParticipantDetails] = useState({
     name: "",
     email: "",
@@ -33,6 +34,12 @@ export default function Home() {
         `/api/participants/participant?email=${email}`
       );
       const details = response.data?.data;
+      console.log(details);
+      if (!details) {
+        setNotFound(true);
+        return;
+      }
+      setNotFound(false);
       setParticipantDetails({
         name: details.name,
         email: details.email,
@@ -68,18 +75,24 @@ export default function Home() {
               if (result.length > 0) {
                 console.log(result[0].rawValue);
                 setScanValue(result[0].rawValue);
-                setParticipantDetails({
-                  name: "",
-                  email: "",
-                  mobile: "",
-                  affiliation: "",
-                });
+                console.log(scanValue);
+                setParticipantDetails({} as any);
                 setDataLoader(true);
                 fetchUserDetails(result[0].rawValue);
               }
             }}
             onError={(error) => alert(error)}
           />
+          {notFound && (
+            <div className="justify-center text-center mt-5">
+              <h1 className="text-red-600 text-xl font-bold">IMPOSTER ALTER</h1>
+              <p className="text-center">
+                QR is <span className="text-red-700">invalid</span>!. Seems like
+                candidate is not{" "}
+                <span className="text-red-700">registered</span>!
+              </p>
+            </div>
+          )}
         </div>
         {participantDetails.name && (
           <div className="justify-center mt-5">
