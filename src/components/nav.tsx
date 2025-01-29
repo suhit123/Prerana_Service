@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { BsPeople } from "react-icons/bs";
+// import { BsPeople } from "react-icons/bs";
 
 import { GrScan } from "react-icons/gr";
 const Nav = () => {
