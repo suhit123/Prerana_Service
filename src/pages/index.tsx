@@ -1,4 +1,4 @@
-import  React, { useState } from 'react';
+import  React from 'react';
 import Nav from "@/components/nav";
 import { Scanner } from '@yudiel/react-qr-scanner';
 
