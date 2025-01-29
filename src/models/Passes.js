@@ -17,5 +17,4 @@ const PassesSchema = new mongoose.Schema({
         required: true,
     }
 });
-module.exports =
-  mongoose.models.passes || mongoose.model("passes", PassesSchema);
+export default mongoose.models.passes || mongoose.model('passes', PassesSchema);
