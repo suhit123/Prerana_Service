@@ -20,7 +20,7 @@ const Participants = () => {
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [selectedParticipant, setSelectedParticipant] = useState<Participant | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  console.log(loading)
   const getParticipants = async () => {
     setLoading(true);
     await axios
