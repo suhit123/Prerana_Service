@@ -16,9 +16,10 @@ const Generator = () => {
     const [index, setIndex] = useState(0);
 
     useEffect(() => {
-        import('@/resources/test.json')
-            .then((jsonData: any) => setData(jsonData.default))
-            .catch((error) => console.error("Error loading JSON:", error));
+        setData([]);
+        // import('@/resources/test.json')
+        //     .then((jsonData: any) => setData(jsonData.default))
+        //     .catch((error) => console.error("Error loading JSON:", error));
     }, []);
 
     useEffect(() => {
