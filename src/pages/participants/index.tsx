@@ -29,6 +29,7 @@ const Participants = () => {
         setParticipants(response.data?.data);
       })
       .catch((error) => {
+        console.error("Error fetching participants: ", error);
         setParticipants([]);
       })
       .finally(() => {
