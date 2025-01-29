@@ -85,7 +85,7 @@ export default function Home() {
           />
           {notFound && (
             <div className="justify-center text-center mt-5">
-              <h1 className="text-red-600 text-xl font-bold">IMPOSTER ALTER</h1>
+              <h1 className="text-red-600 text-xl font-bold">IMPOSTER ALERT</h1>
               <p className="text-center">
                 QR is <span className="text-red-700">invalid</span>!. Seems like
                 candidate is not{" "}
