@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { BsPeople } from "react-icons/bs";
+// import { BsPeople } from "react-icons/bs";
 
 import { GrScan } from "react-icons/gr";
 const Nav = () => {
@@ -33,7 +33,7 @@ const Nav = () => {
             <p className="sn:hidden sp:hidden se:hidden">Scanner </p>
           </Link>
         </li>
-        <li>
+        {/* <li>
           <Link
             href="/participants"
             style={{
@@ -50,7 +50,7 @@ const Nav = () => {
             />{" "}
             <p className="sn:hidden sp:hidden se:hidden">Participants</p>
           </Link>
-        </li>
+        </li> */}
       </ul>
     </nav>
   );

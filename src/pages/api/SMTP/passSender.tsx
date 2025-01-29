@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import nodemailer from "nodemailer";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const { image } = req.body;
+  const { image,email } = req.body;
   console.log(image);
   try {
     // Ensure the base64 string is properly formatted
@@ -23,7 +23,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     // Create an email message
     const mailOptions = {
       from: process.env.ADMIN_EMAIL,
-      to: process.env.ADMIN_EMAIL,
+      to:email ,
       subject: "The Wait Is Over—Your Prerana Fest Passes Have Arrived! 🎉",
       html: `
         <html>
@@ -41,12 +41,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           </head>
           <body>
             <div class="container">
-              <p>Here is the generated pass</p>
               <div class="image-container">
                 <img src="cid:generated-pass" alt="Generated Pass" width="100%" height="auto" style="padding:10px; border-radius:5px; border:1px solid black;" />
-              </div>
-              <div class="text-center" style="display: flex; justify-content: center; align-items: center;">
-                <a href="cid:generated-pass" download="pass.png" class="download-button">Download Pass</a>
               </div>
               <div>
                 <p>Hey Prerana Fam!</p>

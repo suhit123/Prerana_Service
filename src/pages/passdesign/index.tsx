@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { QRCodeCanvas } from "qrcode.react";
-
+import axios from "axios";
 const PassDesign = ({ name = "", email = "", mobile = "", affiliation = "" }) => {
   const [base64Image, setBase64Image] = useState<string | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -11,7 +11,7 @@ const PassDesign = ({ name = "", email = "", mobile = "", affiliation = "" }) =>
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-
+    ctx.fillStyle = "#ffffff"; // Set the background color
     // Load image to the canvas
     const img = new Image();
     img.src = "./template.jpg"; // Replace with your image URL
@@ -39,6 +39,12 @@ const PassDesign = ({ name = "", email = "", mobile = "", affiliation = "" }) =>
             // Convert the canvas to a base64 image URL
             const dataUrl = canvas.toDataURL("image/png");
             setBase64Image(dataUrl);
+            const sendMail = async () => {
+              await axios.post("/api/SMTP/passSender", { image: dataUrl ,
+                email: email,
+              });
+            };
+            sendMail();
           };
         }
       }
