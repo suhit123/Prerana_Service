@@ -25,8 +25,8 @@ export default function Home() {
   console.log(scanValue);
   return (
     <>
-      <Nav />
-      <div className="max-w-96 mx-auto">
+      {/* <Nav /> */}
+      <div className="max-w-96 mx-auto p-2">
         <div className="justify-center bg-gray-100 p-5 py-7 rounded-lg my-3">
           <h1 className="text-xl font-semibold text-center">Scan QR Code</h1>
           <p className="text-center">
@@ -44,10 +44,10 @@ export default function Home() {
           }}
         />
         <div className="justify-center mt-5">
-          <h3 className="text-xl font-medium">
+          <h3 className="text-md mb-2 font-medium">
             Details of the scanned QR code
           </h3>
-          <table className="table-auto max-w-3xl w-full border-collapse rounded-lg shadow-md">
+          <table className="table-auto max-w-3xl w-full border-collapse rounded-lg shadow-md text-sm">
             <thead>
               <tr className="bg-green-800 text-white">
                 <th className="px-4 py-2 text-left">Field</th>

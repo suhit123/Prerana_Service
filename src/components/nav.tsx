@@ -6,7 +6,7 @@ import { GrScan } from "react-icons/gr";
 const Nav = () => {
   return (
     <nav className="flex flex-row justify-between p-5 px-20">
-      <Image src="/logo.jpg" alt="logo" width={150} height={150} />
+      <Image src="/logo.jpg" className="xns:scale-50" alt="logo" width={150} height={150} />
       <ul className="flex flex-row justify-between gap-10 align-middle mt-3">
         <li style={{ listStyle: "none", 
             alignItems: "center",
