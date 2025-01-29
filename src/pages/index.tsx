@@ -4,34 +4,28 @@ import { Scanner } from "@yudiel/react-qr-scanner";
 import axios from "axios";
 import Spinner1 from "@/components/spinner1";
 
+interface ParticipantDetails {
+  name: string;
+  email: string;
+  mobile: string;
+  affiliation: string;
+}
+
 export default function Home() {
   const [scanValue, setScanValue] = useState<string | null>(null); // Specify type here
   const [dataLoader, setDataLoader] = useState(false);
   const [notFound, setNotFound] = useState(false);
-  const [participantDetails, setParticipantDetails] = useState({
+  const [participantDetails, setParticipantDetails] = useState<ParticipantDetails>({
     name: "",
     email: "",
     mobile: "",
     affiliation: "",
   });
+
   const fetchUserDetails = async (email: string) => {
-    // await axios
-    //   .get(`/api/participants/participant?email=${email}`)
-    //   .then((response) => {
-    //     const details = response.data?.data;
-    //     setParticipantDetails({
-    //       name: details.name,
-    //       email: details.email,
-    //       mobile: details.mobile,
-    //       affiliation: details.affiliation,
-    //     });
-    //   });
-    //make it try catch finally by setDataLoaded to true in finally
     setDataLoader(true);
     try {
-      const response = await axios.get(
-        `/api/participants/participant?email=${email}`
-      );
+      const response = await axios.get(`/api/participants/participant?email=${email}`);
       const details = response.data?.data;
       console.log(details);
       if (!details) {
@@ -51,6 +45,7 @@ export default function Home() {
       setDataLoader(false);
     }
   };
+
   console.log(scanValue);
   return (
     <>
@@ -75,7 +70,12 @@ export default function Home() {
                 console.log(result[0].rawValue);
                 setScanValue(result[0].rawValue);
                 console.log(scanValue);
-                setParticipantDetails({} as any);
+                setParticipantDetails({
+                  name: "",
+                  email: "",
+                  mobile: "",
+                  affiliation: "",
+                }); // Reset participant details before fetching new data
                 setDataLoader(true);
                 fetchUserDetails(result[0].rawValue);
               }
@@ -120,9 +120,7 @@ export default function Home() {
                 </tr>
                 <tr className="bg-white">
                   <td className="px-4 py-2 font-semibold">Affiliation</td>
-                  <td className="px-4 py-2">
-                    {participantDetails?.affiliation}
-                  </td>
+                  <td className="px-4 py-2">{participantDetails?.affiliation}</td>
                 </tr>
               </tbody>
             </table>
