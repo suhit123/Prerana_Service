@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Nav from "@/components/nav";
 import { Scanner } from "@yudiel/react-qr-scanner";
 import axios from "axios";
-import { set } from "mongoose";
 import Spinner1 from "@/components/spinner1";
 
 export default function Home() {
