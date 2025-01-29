@@ -4,12 +4,20 @@ import { Scanner } from "@yudiel/react-qr-scanner";
 
 export default function Home() {
   const [scanValue, setScanValue] = useState<string | null>(null); // Specify type here
-
+  console.log(scanValue);
   return (
     <>
       <Nav />
-      <div className="max-w-96">
+
+      <div className="max-w-96 mx-auto">
+        <div className="justify-center bg-gray-100 p-5 py-7 rounded-lg my-3">
+          <h1 className="text-xl font-semibold text-center">Scan QR Code</h1>
+          <p className="text-center">
+            Bottom you will see the details of the scanned QR code
+          </p>
+        </div>
         <Scanner
+          allowMultiple={true}
           onScan={(result) => {
             if (result.length > 0) {
               console.log(result[0].rawValue);
@@ -17,8 +25,36 @@ export default function Home() {
             }
           }}
         />
-        <div className="flex justify-center mt-5">
-          <p className="text-lg">Scanned Value: {scanValue}</p>
+        <div className="justify-center mt-5">
+          <h3 className="text-xl font-medium">
+            Details of the scanned QR code
+          </h3>
+          <table className="table-auto max-w-3xl w-full border-collapse rounded-lg shadow-md">
+            <thead>
+              <tr className="bg-green-800 text-white">
+                <th className="px-4 py-2 text-left">Field</th>
+                <th className="px-4 py-2 text-left">Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="bg-gray-100 border-t border-gray-300">
+                <td className="px-4 py-2 font-semibold">Name</td>
+                <td className="px-4 py-2">Suhit Eswar</td>
+              </tr>
+              <tr className="bg-white">
+                <td className="px-4 py-2 font-semibold">Email</td>
+                <td className="px-4 py-2">suhiteswar123@gmail.com</td>
+              </tr>
+              <tr className="bg-gray-100 border-t border-gray-300">
+                <td className="px-4 py-2 font-semibold">Mobile</td>
+                <td className="px-4 py-2">1234567890</td>
+              </tr>
+              <tr className="bg-white">
+                <td className="px-4 py-2 font-semibold">Affiliation</td>
+                <td className="px-4 py-2">GITAM</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </>
