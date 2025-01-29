@@ -73,7 +73,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 <p><b>P.S.</b> If you have any questions or need assistance with your pass, don’t hesitate to reach out to us at <b>preranafestgitam@gmail.com</b>. We’re here to help!</p>
                 <p><b>Warmest wishes,</b></p>
                 <p><b>Prerana Fest Organizing Committee</b></p>
-                <img src="" alt="Prerana Fest Logo" width="100" height="auto" />
+                <img src="http://prerana-service.vercel.app/Prerana.png" alt="Prerana Fest Logo" width="100" height="auto" />
               </div>
             </div>
           </body>
