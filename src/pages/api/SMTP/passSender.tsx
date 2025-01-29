@@ -7,7 +7,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     // Ensure the base64 string is properly formatted
     const base64Image = image.split(";base64,").pop();
-    const mimeType = image.match(/^data:(.+);base64,/)?.[1] || "image/png";
+    // const mimeType = image.match(/^data:(.+);base64,/)?.[1] || "image/png";
 
     // Create a nodemailer transporter using your email provider's SMTP settings
     const transporter = nodemailer.createTransport({
