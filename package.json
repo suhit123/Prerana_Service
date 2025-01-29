@@ -13,6 +13,7 @@
     "axios": "^1.7.9",
     "mongoose": "^8.9.5",
     "next": "15.1.6",
+    "nodemailer": "^6.10.0",
     "qrcode.react": "^4.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -22,6 +23,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@types/node": "^20",
+    "@types/nodemailer": "^6.4.17",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/react-qr-reader": "^2.1.7",
