@@ -16,10 +16,10 @@ const Generator = () => {
     const [index, setIndex] = useState(0);
 
     useEffect(() => {
-        setData([]);
-        // import('@/resources/test.json')
-        //     .then((jsonData: any) => setData(jsonData.default))
-        //     .catch((error) => console.error("Error loading JSON:", error));
+        // setData([]);
+        import('@/resources/test.json')
+            .then((jsonData: any) => setData(jsonData.default))
+            .catch((error) => console.error("Error loading JSON:", error));
     }, []);
 
     useEffect(() => {
@@ -37,7 +37,7 @@ const Generator = () => {
         <div className='flex flex-row flex-wrap items-center'>
             {visibleData.map((item, idx) => (
                 <div key={idx}>
-                    <p>Index: {idx}</p>
+                    <p>Index: {idx+1}</p>
                     <div className='max-w-xl'>
                     <PassDesign
                         name={item.name}

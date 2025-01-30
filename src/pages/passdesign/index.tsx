@@ -1,10 +1,12 @@
 import React, { useRef, useEffect, useState } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 import axios from "axios";
+
 const PassDesign = ({ name = "", email = "", mobile = "", affiliation = "" }) => {
   const [base64Image, setBase64Image] = useState<string | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const qrCodeRef = useRef<HTMLDivElement>(null);
+  const [mailSent, setMailSent] = useState("NO");
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -21,9 +23,9 @@ const PassDesign = ({ name = "", email = "", mobile = "", affiliation = "" }) =>
       // Draw text on the canvas
       ctx.fillStyle = "#ffe6a3"; // Set the text color
       ctx.font = "16px Arial"; // Set the font size and family
-      ctx.fillText("Name: "+name, 350, 250); // Positioning the text
+      ctx.fillText("Name: " + name, 350, 250); // Positioning the text
       ctx.fillText("Mobile: +91 " + mobile, 350, 275); // Positioning the text
-      ctx.fillText("Email: "+email, 350, 300); // Positioning the text
+      ctx.fillText("Email: " + email, 350, 300); // Positioning the text
       ctx.fillText("Affiliation: " + affiliation, 350, 325); // Positioning the text
 
       // Generate and draw the QR code on canvas
@@ -40,9 +42,20 @@ const PassDesign = ({ name = "", email = "", mobile = "", affiliation = "" }) =>
             const dataUrl = canvas.toDataURL("image/png");
             setBase64Image(dataUrl);
             const sendMail = async () => {
-              await axios.post("/api/SMTP/passSender", { image: dataUrl ,
-                email: email,
-              });
+              setMailSent("LOADING");
+              await axios
+                .post("/api/SMTP/passSender", {
+                  image: dataUrl,
+                  email: email,
+                })
+                .then((response) => {
+                  console.log(response);
+                  setMailSent("YES");
+                })
+                .catch((error) => {
+                  console.error("Error sending mail: ", error);
+                  setMailSent("UNABLE");
+                });
             };
             sendMail();
           };
@@ -52,7 +65,7 @@ const PassDesign = ({ name = "", email = "", mobile = "", affiliation = "" }) =>
   }, [name, email, mobile, affiliation]);
 
   return (
-    <div className="m-6">
+    <div className="m-6 p-6 max-w-lg mx-auto bg-white shadow-lg rounded-xl space-y-6">
       {/* Canvas (hidden from the user but used to generate the image) */}
       <canvas
         ref={canvasRef}
@@ -64,14 +77,30 @@ const PassDesign = ({ name = "", email = "", mobile = "", affiliation = "" }) =>
       <div ref={qrCodeRef} style={{ display: "none" }}>
         <QRCodeCanvas value={email} size={500} />
       </div>
-      
+
       {/* Base64 image rendering (once generated) */}
       {base64Image && (
-        <img src={base64Image} alt="Generated Pass" width={'100%'}  style={{
-          padding: "10px",
-          borderRadius: "5px",
-          border: "1px solid black",
-        }}/>
+        <div className="flex justify-center">
+          <img
+            src={base64Image}
+            alt="Generated Pass"
+            className="w-full max-w-3xl rounded-xl border-2 border-gray-300 shadow-md p-4"
+          />
+        </div>
+      )}
+      
+      {/* Mail status */}
+      {mailSent === "LOADING" && (
+        <div className="text-center text-gray-500">Sending mail...</div>
+      )}
+      {mailSent === "YES" && (
+        <div className="text-center text-green-500">Mail sent successfully!</div>
+      )}
+      {mailSent === "NO" && (
+        <div className="text-center text-gray-500">Mail not sent yet</div>
+      )}
+      {mailSent === "UNABLE" && (
+        <div className="text-center text-red-500">Unable to send mail</div>
       )}
     </div>
   );
