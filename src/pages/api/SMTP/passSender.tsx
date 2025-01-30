@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import nodemailer from "nodemailer";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const { image,email } = req.body;
+  const { image, email } = req.body;
   console.log(image);
   try {
     // Ensure the base64 string is properly formatted
@@ -23,57 +23,110 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     // Create an email message
     const mailOptions = {
       from: process.env.ADMIN_EMAIL,
-      to:email ,
-      subject: "The Wait Is Over—Your Prerana Fest Passes Have Arrived! 🎉",
+      to: email,
+      subject: "🔔 Ding Dong! Your Prerana Pass is Here! 🎫",
       html: `
-        <html>
-          <head>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Contact Form Submission</title>
-            <style>
-              body { font-family: Arial, sans-serif; background-color: #ffffff; padding: 20px; }
-              .container { background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); }
-              .image-container { text-align: center; margin-bottom: 20px; }
-              .download-button { display: inline-block; padding: 10px 15px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px; }
-              .download-button:hover { background-color: #0056b3; }
-            </style>
-          </head>
-          <body>
-            <div class="container">
-              <div class="image-container">
+        <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PREЯANA Fest Invitation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 20px;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2, h3 {
+            color: #154561;
+            text-align: center;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #327ad1;
+        }
+        .emoji {
+            font-size: 1.2em;
+        }
+        .btn {
+            display: inline-block;
+            background: #327ad1;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            margin: 10px auto;
+            display: block;
+            width: 50%;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9em;
+            align-items: center;
+        }
+        .image-container {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+    <div class="image-container">
                 <img src="cid:generated-pass" alt="Generated Pass" width="100%" height="auto" style="padding:10px; border-radius:5px; border:1px solid black;" />
               </div>
-              <div>
-                <p>Hey Prerana Fam!</p>
-                <p>Wow, what an incredible two days we just had at Prerana Fest! From the electrifying performances to the unforgettable moments, you all made it a celebration to remember. 🙌🔥</p>
-                <p>First off, a HUGE thank you for your patience and unwavering support while we navigated those unexpected twists. Your enthusiasm kept the spirit alive, and we couldn’t have done it without each and every one of you! 🌟❤</p>
-                <p>Drumroll, please… 🥁</p>
-                <p>Your exclusive Prerana Fest passes are here! 🎟✨ Whether you want to relive the magic through our event highlights, access behind-the-scenes content, or gear up for next year’s epicness, these passes are your golden ticket to all things Prerana!</p>
-                <h3>What’s Inside Your Fest Pass:</h3>
-                <ul>
-                  <li><b>VIP Access to Event Recordings:</b> Missed a moment or want to watch your favorite performances again? It’s all here! 📹🎶</li>
-                  <li><b>Exclusive Behind-the-Scenes Content:</b> Get up close and personal with the magic that happens backstage. 🎬✨</li>
-                  <li><b>Sneak Peeks for Next Year:</b> Be the first to know about what’s brewing for Prerana Fest 2026! 🚀🎆</li>
-                  <li><b>Special Surprises & Giveaways:</b> Because who doesn’t love a little extra sparkle? 🎁🎉</li>
-                </ul>
-                <h3>How to Access Your Pass:</h3>
-                <ul>
-                  <li><b>Check Your Inbox:</b> We’ve sent your personalized pass to your email. If you don’t see it, give your spam folder a quick peek! 📬🔍</li>
-                  <li><b>Click & Enjoy:</b> Follow the simple instructions to unlock all the amazing content waiting for you. It’s that easy! 🖱💻</li>
-                </ul>
-                <p>But wait, there’s MORE! 🌈✨ We’re just getting started on keeping the Prerana spirit alive. Stay tuned for upcoming events, virtual hangouts, and exclusive content that will keep you buzzing until next year’s fest!</p>
-                <p><b>Spread the Love:</b> Loved the fest? Share your favorite moments on social media using <b>#PreranaFest2025</b> and tag us! Let’s keep the memories alive and inspire others to join our incredible community. 📸💬</p>
-                <p>Once again, thank you for being the heart and soul of Prerana Fest. Your energy, passion, and joy made these two days nothing short of legendary. Here’s to many more amazing moments together! 🥂✨</p>
-                <p>See you soon with more magic and fun! 😉</p>
-                <p><b>P.S.</b> If you have any questions or need assistance with your pass, don’t hesitate to reach out to us at <b>preranafestgitam@gmail.com</b>. We’re here to help!</p>
-                <p><b>Warmest wishes,</b></p>
-                <p><b>Prerana Fest Organizing Committee</b></p>
-                <img src="http://prerana-service.vercel.app/Prerana.png" alt="Prerana Fest Logo" width="100" height="auto" />
-              </div>
-            </div>
-          </body>
-        </html>
+        <h2>🎫 You've Waited! You've Been Patient... It's Your Time Now! 🎫</h2>
+        
+        <h3>✨ You Know What They Say… ✨</h3>
+        <p>Good things come to those who wait. And wow, have you been patient! If waiting were a sport, you'd probably have a gold medal by now. 🏆</p>
+        
+        <h3>🚀 The Wait Is Over! 🚀</h3>
+        <p>After a brief delay, we're <span class="highlight">THRILLED</span> to announce that <strong>PREЯANA Fest</strong> is officially happening! 🎊</p>
+        <p><strong>Mark your calendars:</strong> The fest kicks off in just <span class="highlight">2 days</span> on <strong>February 1st and February 2nd, 2025</strong>. Get ready for an epic celebration filled with excitement, creativity, and unforgettable moments!</p>
+        
+        <h3>🎟 Your Exclusive Pass Inside 🎟</h3>
+        <p>Attached to this email, you’ll find your personal pass to the fest. Here’s how to get ready:</p>
+        <ul>
+            <li>📲 <strong>Download:</strong> Save it on your mobile device for easy access.</li>
+            <li>👜 <strong>What to Bring:</strong> Don’t forget your ID and your big smile! 😄</li>
+        </ul>
+        
+        <h3>💡 Pro Tips 😎</h3>
+        <ul>
+            <li>⏰ <strong>Arrive Early:</strong> Beat the crowds and secure the best spots for performances.</li>
+            <li>🔍 <strong>Explore:</strong> Take time to check out all the activities and make the most of your day!</li>
+            <li>📸 <strong>Capture Memories:</strong> Don’t forget to take photos and share your experiences with us!</li>
+        </ul>
+        
+        <h3>❓ Need Assistance? ❓</h3>
+        <p>Got questions or need help? No worries! Just reply to this email or reach out to our support team at <a href="mailto:preranafestgitam@gmail.com">preranafestgitam@gmail.com</a>. We’re here to ensure you have an amazing experience!</p>
+        
+        <h3>🤝 Thank You for Your Patience and Support! 🫂</h3>
+        <p>Your incredible patience and unwavering support have brought us to this exciting moment. We can’t wait to celebrate with you and make <strong>PREЯANA Fest</strong> the best one yet!</p>
+        
+        <h2>🔥 Let’s Go PREЯANA! 🚀</h2>
+        <p style="text-align:center;"><a href="#" class="btn">See You Soon!</a></p>
+        
+        <div class="footer">
+            <p>Cheers,<br><strong>Team PREЯANA</strong></p>
+            <img src="https://prerana-service.vercel.app/Prerana.png" alt="PREЯANA Logo" width="100px" height="auto" />
+        </div>
+    </div>
+</body>
+</html>
       `,
       attachments: [
         {

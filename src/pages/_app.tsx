@@ -1,6 +1,17 @@
-import "@/styles/globals.css";
 import type { AppProps } from "next/app";
-
+import Head from "next/head";
+import 'tailwindcss/tailwind.css';
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <Head>
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>Prerana Service</title>
+        <meta name="description" content="Best PWA app in the world!" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="manifest" href="/manifest.json" />
+      </Head>
+      <Component {...pageProps} />
+    </>
+  );
 }

@@ -1,0 +1,16 @@
+{
+    "name": "Prerana",
+    "short_name": "Prerana",
+    "description": "Prerana is a techno cultural fest of GITAM University, Bengaluru Campus",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#000000",
+    "icons": [
+      {
+        "src": "/Prerana.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      }
+    ]
+  }

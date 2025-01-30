@@ -43,9 +43,8 @@ const Participants = () => {
     getParticipants();
   }, []);
 
-  const filteredParticipants = participants.filter((participant) =>
-    participant.email.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredParticipants = participants.filter((participant) => participant && participant.email &&
+    participant?.email?.toLowerCase().includes(searchQuery.toLowerCase()) || participant && participant.name && participant.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
   const totalPages = Math.ceil(filteredParticipants.length / entriesPerPage);
   const startIndex = (currentPage - 1) * entriesPerPage;
