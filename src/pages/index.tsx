@@ -3,10 +3,13 @@ import Nav from "@/components/nav";
 import { Scanner } from "@yudiel/react-qr-scanner";
 import axios from "axios";
 import Spinner1 from "@/components/spinner1";
+import { useRef } from "react";
 
 export default function Home() {
   const [scanValue, setScanValue] = useState<string | null>(null); // Specify type here
   const [dataLoader, setDataLoader] = useState(false);
+  const [pause, setPause] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
   const [notFound, setNotFound] = useState(false);
   const [participantDetails, setParticipantDetails] = useState({
     name: "",
@@ -14,6 +17,11 @@ export default function Home() {
     mobile: "",
     affiliation: "",
   });
+  const playSound = () => {
+    if (audioRef.current) {
+      audioRef.current.play();
+    }
+  };
   const fetchUserDetails = async (email: string) => {
     // await axios
     //   .get(`/api/participants/participant?email=${email}`)
@@ -68,16 +76,25 @@ export default function Home() {
               <Spinner1 />
             </div>
           )}
+          <button onClick={playSound}>Press me</button>
+          <audio ref={audioRef} src="/beep-02.mp3" preload="auto"></audio>
           <Scanner
             allowMultiple={true}
+            paused={pause}
             onScan={(result) => {
               if (result.length > 0) {
+                playSound();
+                setPause(true);
                 console.log(result[0].rawValue);
                 setScanValue(result[0].rawValue);
                 console.log(scanValue);
                 setParticipantDetails({} as any);
                 setDataLoader(true);
                 fetchUserDetails(result[0].rawValue);
+                //after 2 seconds set pause to false
+                setTimeout(() => {
+                  setPause(false);
+                }, 2000);
               }
             }}
             onError={(error) => alert(error)}
