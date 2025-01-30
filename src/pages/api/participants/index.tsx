@@ -4,6 +4,12 @@ import PassesSchema from '@/models/Passes';
 
 dbConnect();
 
+interface Participant {
+    name: string;
+    email: string;
+    mobile: string;
+    affiliation: string;
+};
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const { method } = req;
     switch (method) {
@@ -33,7 +39,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 }
                 // console.log(participants);
                 // Convert emails to lowercase before inserting
-                const formattedParticipants = participants.map((participant:any) => ({
+                const formattedParticipants = participants.map((participant:Participant) => ({
                     name: participant.name,
                     email: participant.email.toLowerCase(),
                     mobile: participant.mobile,
@@ -42,10 +48,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
                 // Insert into database
                 const insertedParticipants = await PassesSchema.insertMany(formattedParticipants, { ordered: false })
-                .catch((error: any) => {
-                    if (error.code === 11000) {
-                        console.warn("Duplicate entries detected, ignoring...");
-                        return error.insertedDocs || []; 
+                .catch((error: unknown) => {
+                    if (typeof error === "object" && error !== null && "code" in error) {
+                        const err = error as { code: number; insertedDocs?: any[] }; 
+                        if (err.code === 11000) {
+                            console.warn("Duplicate entries detected, ignoring...");
+                            return err.insertedDocs || [];
+                        }
                     }
                     throw error;
                 });
