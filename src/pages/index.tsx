@@ -18,12 +18,13 @@ export default function Home() {
   const [pause, setPause] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const [notFound, setNotFound] = useState(false);
-  const [participantDetails, setParticipantDetails] = useState<ParticipantDetails>({
-    name: "",
-    email: "",
-    mobile: "",
-    affiliation: "",
-  });
+  const [participantDetails, setParticipantDetails] =
+    useState<ParticipantDetails>({
+      name: "",
+      email: "",
+      mobile: "",
+      affiliation: "",
+    });
   const playSound = () => {
     if (audioRef.current) {
       audioRef.current.play();
@@ -32,7 +33,9 @@ export default function Home() {
   const fetchUserDetails = async (email: string) => {
     setDataLoader(true);
     try {
-      const response = await axios.get(`/api/participants/participant?email=${email}`);
+      const response = await axios.get(
+        `/api/participants/participant?email=${email}`
+      );
       const details = response.data?.data;
       console.log(details);
       if (!details) {
@@ -70,7 +73,6 @@ export default function Home() {
               <Spinner1 />
             </div>
           )}
-          <button onClick={playSound}>Press me</button>
           <audio ref={audioRef} src="/beep-02.mp3" preload="auto"></audio>
           <Scanner
             allowMultiple={true}
@@ -93,7 +95,7 @@ export default function Home() {
                 //after 2 seconds set pause to false
                 setTimeout(() => {
                   setPause(false);
-                }, 2000);
+                }, 1000);
               }
             }}
             onError={(error) => alert(error)}
@@ -136,7 +138,9 @@ export default function Home() {
                 </tr>
                 <tr className="bg-white">
                   <td className="px-4 py-2 font-semibold">Affiliation</td>
-                  <td className="px-4 py-2">{participantDetails?.affiliation}</td>
+                  <td className="px-4 py-2">
+                    {participantDetails?.affiliation}
+                  </td>
                 </tr>
               </tbody>
             </table>
