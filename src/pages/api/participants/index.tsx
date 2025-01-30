@@ -50,13 +50,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 const insertedParticipants = await PassesSchema.insertMany(formattedParticipants, { ordered: false })
                 .catch((error: unknown) => {
                     if (typeof error === "object" && error !== null && "code" in error) {
-                        const err = error as { code: number; insertedDocs?: any[] }; 
-                        if (err.code === 11000) {
-                            console.warn("Duplicate entries detected, ignoring...");
-                            return err.insertedDocs || [];
-                        }
+                        console.log("Error code:", error["code"]);
+                        return res.status(400).json({ success: false, message: "Invalid input format" });
                     }
-                    throw error;
+                    return res.status(500).json({ success: false, message: "Server error" });
                 });
 
                 res.status(201).json({ success: true, data: insertedParticipants });
