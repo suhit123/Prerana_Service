@@ -10,22 +10,32 @@ interface ParticipantDetails {
   mobile: string;
   affiliation: string;
 }
+import { useRef } from "react";
 
 export default function Home() {
   const [scanValue, setScanValue] = useState<string | null>(null); // Specify type here
   const [dataLoader, setDataLoader] = useState(false);
+  const [pause, setPause] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
   const [notFound, setNotFound] = useState(false);
-  const [participantDetails, setParticipantDetails] = useState<ParticipantDetails>({
-    name: "",
-    email: "",
-    mobile: "",
-    affiliation: "",
-  });
-
+  const [participantDetails, setParticipantDetails] =
+    useState<ParticipantDetails>({
+      name: "",
+      email: "",
+      mobile: "",
+      affiliation: "",
+    });
+  const playSound = () => {
+    if (audioRef.current) {
+      audioRef.current.play();
+    }
+  };
   const fetchUserDetails = async (email: string) => {
     setDataLoader(true);
     try {
-      const response = await axios.get(`/api/participants/participant?email=${email}`);
+      const response = await axios.get(
+        `/api/participants/participant?email=${email}`
+      );
       const details = response.data?.data;
       console.log(details);
       if (!details) {
@@ -63,10 +73,14 @@ export default function Home() {
               <Spinner1 />
             </div>
           )}
+          <audio ref={audioRef} src="/beep-02.mp3" preload="auto"></audio>
           <Scanner
             allowMultiple={true}
+            paused={pause}
             onScan={(result) => {
               if (result.length > 0) {
+                playSound();
+                setPause(true);
                 console.log(result[0].rawValue);
                 setScanValue(result[0].rawValue);
                 console.log(scanValue);
@@ -78,6 +92,10 @@ export default function Home() {
                 }); // Reset participant details before fetching new data
                 setDataLoader(true);
                 fetchUserDetails(result[0].rawValue);
+                //after 2 seconds set pause to false
+                setTimeout(() => {
+                  setPause(false);
+                }, 1000);
               }
             }}
             onError={(error) => alert(error)}
@@ -120,7 +138,9 @@ export default function Home() {
                 </tr>
                 <tr className="bg-white">
                   <td className="px-4 py-2 font-semibold">Affiliation</td>
-                  <td className="px-4 py-2">{participantDetails?.affiliation}</td>
+                  <td className="px-4 py-2">
+                    {participantDetails?.affiliation}
+                  </td>
                 </tr>
               </tbody>
             </table>
