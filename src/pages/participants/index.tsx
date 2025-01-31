@@ -4,6 +4,7 @@ import axios from "axios";
 import PassDesign from "../passdesign";
 import Nav from "@/components/nav";
 import Spinner1 from "@/components/spinner1";
+import AddParticipants from "../addParticipants";
 
 interface Participant {
   id: number;
@@ -24,6 +25,7 @@ const Participants = () => {
   const [selectedMailParticipant, setSelectedMailParticipant] =useState<Participant | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMailModalOpen, setIsMailModalOpen] = useState(false);
+  const [addParticipantsModal, setAddParticipantsModal] = useState(false);
   console.log(loading);
   const getParticipants = async () => {
     setLoading(true);
@@ -96,6 +98,9 @@ const Participants = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
             className="mb-4 p-2 sp:p-1 se:p-1 border border-gray-300 sp:w-[200px] se:w-[200px] rounded-md outline-none w-full sp:px-1 se:px-1 px-3 max-w-2xl text-sm"
           />
+          <button className="bg-green-800 text-white px-4 py-2 rounded-md hover:bg-green-700 transition" onClick={() => setAddParticipantsModal(true)}>
+            Add Participants
+          </button>
         </div>
         <div className="overflow-x-auto w-full max-w-7xl">
           <table className="w-full bg-white shadow-lg rounded-lg overflow-hidden text-sm">
@@ -197,6 +202,22 @@ const Participants = () => {
             Next
           </button>
         </div>
+
+        {/* Modal for Add Participants */}
+        {addParticipantsModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl h-92 relative">
+              <button
+                onClick={() => setAddParticipantsModal(false)}
+                className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
+              >
+                Close
+              </button>
+              <AddParticipants />
+            </div>
+          </div>
+        )}
+
 
         {/* Modal for Pass Design */}
         {isModalOpen && selectedParticipant && (
