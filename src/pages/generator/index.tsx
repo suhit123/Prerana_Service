@@ -27,7 +27,7 @@ const Generator = () => {
             const timer = setTimeout(() => {
                 setVisibleData((prev) => [...prev, data[index]]);
                 setIndex((prevIndex) => prevIndex + 1);
-            }, 1000); // Delay of 1 second
+            }, 1500); // Delay of 1 second
 
             return () => clearTimeout(timer);
         }
@@ -44,6 +44,7 @@ const Generator = () => {
                         email={item.email}
                         mobile={item.mobile?.toString()}
                         affiliation={item.affiliation}
+                        sendMailStatus={true}
                     />
                     </div>
                 </div>

@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 import axios from "axios";
 
-const PassDesign = ({ name = "", email = "", mobile = "", affiliation = "" }) => {
+const PassDesign = ({ name = "", email = "", mobile = "", affiliation = "",sendMailStatus=false }) => {
   const [base64Image, setBase64Image] = useState<string | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const qrCodeRef = useRef<HTMLDivElement>(null);
@@ -43,7 +43,8 @@ const PassDesign = ({ name = "", email = "", mobile = "", affiliation = "" }) =>
             setBase64Image(dataUrl);
             const sendMail = async () => {
               setMailSent("LOADING");
-              await axios
+              try{
+                await axios
                 .post("/api/SMTP/passSender", {
                   image: dataUrl,
                   email: email,
@@ -56,8 +57,13 @@ const PassDesign = ({ name = "", email = "", mobile = "", affiliation = "" }) =>
                   console.error("Error sending mail: ", error);
                   setMailSent("UNABLE");
                 });
+              }
+              catch (error) {
+                console.error("Error sending mail: ", error);
+                setMailSent("UNABLE");
+              }
             };
-            sendMail();
+            if(sendMailStatus)sendMail();
           };
         }
       }
@@ -65,7 +71,7 @@ const PassDesign = ({ name = "", email = "", mobile = "", affiliation = "" }) =>
   }, [name, email, mobile, affiliation]);
 
   return (
-    <div className="m-6 p-6 max-w-lg mx-auto bg-white shadow-lg rounded-xl space-y-6">
+    <div className="">
       {/* Canvas (hidden from the user but used to generate the image) */}
       <canvas
         ref={canvasRef}
@@ -90,16 +96,16 @@ const PassDesign = ({ name = "", email = "", mobile = "", affiliation = "" }) =>
       )}
       
       {/* Mail status */}
-      {mailSent === "LOADING" && (
+      {mailSent === "LOADING" && sendMailStatus && (
         <div className="text-center text-gray-500">Sending mail...</div>
       )}
-      {mailSent === "YES" && (
+      {mailSent === "YES" && sendMailStatus && (
         <div className="text-center text-green-500">Mail sent successfully!</div>
       )}
-      {mailSent === "NO" && (
+      {mailSent === "NO" && sendMailStatus && (
         <div className="text-center text-gray-500">Mail not sent yet</div>
       )}
-      {mailSent === "UNABLE" && (
+      {mailSent === "UNABLE" && sendMailStatus && (
         <div className="text-center text-red-500">Unable to send mail</div>
       )}
     </div>
