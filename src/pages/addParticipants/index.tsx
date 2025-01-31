@@ -18,6 +18,10 @@ const AddParticipants = () => {
     affiliation: "GITAM",
   });
   const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState<"success" | "error" | "info">(
+    "info"
+  );
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -54,18 +58,22 @@ const AddParticipants = () => {
     setParticipants([...participants, formData]);
     setFormData({ name: "", email: "", mobile: "", affiliation: "GITAM" });
   };
+
   const handleSubmitData = async () => {
     setMessage("Adding participants...");
+    setMessageType("info");
     await axios
       .post("/api/participants", participants)
       .then((response) => {
         console.log(response.data);
         setMessage("Participants added successfully");
+        setMessageType("success");
         setParticipants([]);
       })
       .catch((error) => {
         console.error("Error adding participants: ", error);
         setMessage("Error adding participants");
+        setMessageType("error");
       });
   };
 
@@ -74,12 +82,32 @@ const AddParticipants = () => {
       <h1 className="text-xl font-bold text-center text-gray-800 mb-6">
         Add Participants
       </h1>
-      <p>{message}</p>
+
+      {/* Message Styling */}
+      {message && (
+        <div
+          className={`${
+            messageType === "success"
+              ? "bg-green-500 text-white"
+              : messageType === "error"
+              ? "bg-red-500 text-white"
+              : "bg-blue-500 text-white"
+          } p-4 rounded-lg mb-6 flex items-center`}
+        >
+          <span className="mr-2">
+            {messageType === "success" && "✔️"}
+            {messageType === "error" && "❌"}
+            {messageType === "info" && "ℹ️"}
+          </span>
+          <p className="font-medium">{message}</p>
+        </div>
+      )}
+
       <form
         onSubmit={handleSubmit}
         className="space-y-4 grid grid-cols-2 gap-2"
       >
-        <div className="space-y-4   ">
+        <div className="space-y-4">
           <label htmlFor="name" className="block text-gray-700 font-medium">
             Name
           </label>
@@ -149,6 +177,7 @@ const AddParticipants = () => {
           Submit
         </button>
       </form>
+
       <div className="mt-6">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
           Participants
