@@ -35,7 +35,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 const participants = req.body; // Expecting an array of participants
 
                 if (participants.length === 0) {
-                    return res.status(400).json({ success: false, message: "Invalid input format" });
+                    return res.status(400).json({ success: false, message: "Invalid input format",data:participants });
                 }
                 // console.log(participants);
                 // Convert emails to lowercase before inserting
