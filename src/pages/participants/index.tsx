@@ -21,7 +21,9 @@ const Participants = () => {
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [selectedParticipant, setSelectedParticipant] =
     useState<Participant | null>(null);
+  const [selectedMailParticipant, setSelectedMailParticipant] =useState<Participant | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMailModalOpen, setIsMailModalOpen] = useState(false);
   console.log(loading);
   const getParticipants = async () => {
     setLoading(true);
@@ -43,8 +45,17 @@ const Participants = () => {
     getParticipants();
   }, []);
 
-  const filteredParticipants = participants.filter((participant) => participant && participant.email &&
-    participant?.email?.toLowerCase().includes(searchQuery.toLowerCase()) || participant && participant.name && participant.name.toLowerCase().includes(searchQuery.toLowerCase()));
+  const filteredParticipants = participants.filter(
+    (participant) =>
+      (participant &&
+        participant.email &&
+        participant?.email
+          ?.toLowerCase()
+          .includes(searchQuery.toLowerCase())) ||
+      (participant &&
+        participant.name &&
+        participant.name.toLowerCase().includes(searchQuery.toLowerCase()))
+  );
 
   const totalPages = Math.ceil(filteredParticipants.length / entriesPerPage);
   const startIndex = (currentPage - 1) * entriesPerPage;
@@ -62,7 +73,14 @@ const Participants = () => {
     setIsModalOpen(false);
     setSelectedParticipant(null);
   };
-
+  const handleMailPass = (participant: Participant) => {
+    setSelectedMailParticipant(participant);
+    setIsMailModalOpen(true);
+  };
+  const handleCloseMailModal = () => {
+    setIsMailModalOpen(false);
+    setSelectedMailParticipant(null);
+  };
   return (
     <>
       <Nav />
@@ -120,7 +138,8 @@ const Participants = () => {
                 //first row for loader
                 <tr
                   key={participant.id}
-                  className="border-b hover:bg-gray-100 transition">
+                  className="border-b hover:bg-gray-100 transition"
+                >
                   <td className="py-3 sp:py-2 sp:px-3 se:py-2 se:px-3 px-4">
                     {startIndex + index + 1}
                   </td>
@@ -139,12 +158,16 @@ const Participants = () => {
                   <td className="py-3 sp:py-2 sp:px-3 px-4 se:py-2 se:px-3 text-center">
                     <button
                       onClick={() => handleViewPass(participant)}
-                      className="bg-orange-700 text-white px-4 py-1 rounded-md hover:bg-orange-600 transition">
+                      className="bg-orange-700 text-white px-4 py-1 rounded-md hover:bg-orange-600 transition"
+                    >
                       View
                     </button>
                   </td>
                   <td className="py-3 px-4 text-center">
-                    <button className="bg-blue-500 text-white px-4 py-1 rounded-md hover:bg-blue-600 transition">
+                    <button
+                      onClick={() => handleMailPass(participant)}
+                      className="bg-blue-500 text-white px-4 py-1 rounded-md hover:bg-blue-600 transition"
+                    >
                       Mail
                     </button>
                   </td>
@@ -157,7 +180,8 @@ const Participants = () => {
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
-            className="px-4 py-2 bg-gray-400 text-white rounded-lg disabled:opacity-50">
+            className="px-4 py-2 bg-gray-400 text-white rounded-lg disabled:opacity-50"
+          >
             Previous
           </button>
           <span className="px-4 py-2 bg-white border rounded-lg">
@@ -168,7 +192,8 @@ const Participants = () => {
               setCurrentPage((prev) => Math.min(prev + 1, totalPages))
             }
             disabled={currentPage === totalPages}
-            className="px-4 py-2 bg-gray-400 text-white rounded-lg disabled:opacity-50">
+            className="px-4 py-2 bg-gray-400 text-white rounded-lg disabled:opacity-50"
+          >
             Next
           </button>
         </div>
@@ -179,7 +204,8 @@ const Participants = () => {
             <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-5xl h-92 relative">
               <button
                 onClick={handleCloseModal}
-                className="absolute top-2 right-2 text-gray-600 hover:text-gray-800">
+                className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
+              >
                 Close
               </button>
               <PassDesign
@@ -191,6 +217,27 @@ const Participants = () => {
             </div>
           </div>
         )}
+        {
+          isMailModalOpen && selectedMailParticipant && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+              <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-5xl h-92 relative">
+                <button
+                  onClick={handleCloseMailModal}
+                  className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
+                >
+                  Close
+                </button>
+                <PassDesign
+                  name={selectedMailParticipant.name}
+                  email={selectedMailParticipant.email}
+                  mobile={selectedMailParticipant.mobile}
+                  affiliation={selectedMailParticipant.affiliation}
+                  sendMailStatus={true}
+                />
+              </div>
+            </div>
+          )
+        }
       </div>
     </>
   );
