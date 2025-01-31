@@ -42,7 +42,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 const formattedParticipants = participants.map((participant:Participant) => ({
                     name: participant.name,
                     email: participant.email.toLowerCase(),
-                    mobile: participant.mobile,
+                    mobile: participant.mobile?.toString(),
                     affiliation: participant.affiliation
                 }));
 
